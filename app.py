@@ -70,5 +70,24 @@ def main():
                     # Process and save date's information
                     st.success("Date's information submitted successfully!")
 
+                    # Load user data from JSON file
+                    with open(json_file_path, "r") as json_file:
+                        user_data_list = json.load(json_file)
+
+                    # Filter user data based on high preference
+                    if "gender & religion" in high_preference:
+                        filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion]
+                    elif "gender & job" in high_preference:
+                        filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("job") == date_job]
+                    else:
+                        filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion and user.get("job") == date_job]
+
+                    # Display filtered data to the user
+                    if filtered_data:
+                        st.title("Filtered Users Based on High Preference")
+                        st.json(filtered_data)
+                    else:
+                        st.warning("No matching users found based on high preference.")
+
 if __name__ == "__main__":
     main()
