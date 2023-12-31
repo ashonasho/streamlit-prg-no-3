@@ -15,3 +15,4 @@ religion = st.text_input("faith community", placeholder="Enter your religion / N
 job = st.text_input("position of employment", placeholder="Job / Student / other")
 gender = st.radio("Your Gender", ["Male", "Female"])
 heigth = st.number_input("Your Height", value=None, placeholder="Enter Your Height in feet ")
+yourinterests = st.text_input("Your Interests", placeholder="Music type,Dance,Sports and etc")
