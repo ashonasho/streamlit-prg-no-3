@@ -52,7 +52,10 @@ def main():
         "interests": yourinterests
     })
 
-    # Submit button and validation
+    # Submit button and validation at the bottom
+    if "image" in user_data:
+        st.warning("Please fill in all the required fields.")
+
     if st.button("Submit") and all(value and value.strip() for value in user_data.values()):
         # Serialize dictionary to JSON string
         user_json = json.dumps(user_data, indent=4)
@@ -62,8 +65,6 @@ def main():
             json_file.write(user_json)
 
         st.success("User data submitted successfully!")
-    elif "image" in user_data:
-        st.warning("Please fill in all the required fields.")
 
 if __name__ == "__main__":
     main()
