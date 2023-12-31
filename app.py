@@ -9,5 +9,7 @@ name = st.text_input("Yourname", placeholder="short name/your name")
 st.write("Welcome", name)
 
 firstname = st.text_input("Firstname", placeholder="Enter your first name")
-secondname = st.text_input("Secondname", placeholder="Enter your second name")
+secondname = st.text_input("Secondname", placeholder="Enter your second name/No second name")
 birthdate= st.date_input("Birth Date", format="DD.MM.YYYY")
+religion = st.text_input("faith community", placeholder="Enter your religion/No religion")
+job = st.text_input("position of employment", placeholder="Job/Student/other")
