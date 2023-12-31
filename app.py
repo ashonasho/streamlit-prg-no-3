@@ -53,7 +53,8 @@ def main():
 if st.button("Submit"):
     
     if all(value and value.strip() for value in user_data.values()):
-        
+        json_file_path = "user_data.json"
+
         user_json = json.dumps(user_data, indent=4)
 
         
