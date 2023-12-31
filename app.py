@@ -63,6 +63,7 @@ def main():
             st.title("Date's Information")
             date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
             date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
+            date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
             
         elif not all_fields_filled:
             st.warning("Please fill in all the required fields and upload an image.")
