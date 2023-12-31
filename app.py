@@ -20,7 +20,7 @@ yourinterests = st.text_input("Your Interests", placeholder="Music type,Dance,Sp
 
 
 def main():
-    st.title("Image Uploader App")
+    st.title("Image Uploader ")
     st.write("Please upload your image.")
 
     uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
