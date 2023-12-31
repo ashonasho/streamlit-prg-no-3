@@ -56,20 +56,19 @@ def main():
 
             st.success("User data submitted successfully!")
 
-            # After submitting user data, create a new page to ask for date's information
-            st.title("Date's Information")
+            # After submitting user data, create a new form to ask for date's information
+            with st.form("date_info_form"):
+                st.title("Date's Information")
+                date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
+                date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
+                date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
+                high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
 
-            # Create placeholders for user input
-            date_gender_placeholder = st.empty()
-            date_religion_placeholder = st.empty()
-            date_job_placeholder = st.empty()
-            high_preference_placeholder = st.empty()
+                submit_date_info = st.form_submit_button("Submit Date's Information")
 
-            # Ask for date's information
-            date_gender = date_gender_placeholder.text_input("Date's Gender", placeholder="Enter date's gender")
-            date_religion = date_religion_placeholder.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
-            date_job = date_job_placeholder.text_input("Date's position of employment", placeholder="Job / Student / other")
-            high_preference = high_preference_placeholder.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
+                if submit_date_info:
+                    # Process and save date's information
+                    st.success("Date's information submitted successfully!")
 
 if __name__ == "__main__":
     main()
