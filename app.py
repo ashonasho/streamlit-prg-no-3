@@ -23,7 +23,7 @@ user_data = {
     "name": name,
     "firstname": firstname,
     "secondname": secondname,
-    "birthdate": str(birthdate),
+    "birthdate": str(birthdate) if birthdate is not None else None, 
     "religion": religion,
     "job": job,
     "gender": gender,
@@ -52,7 +52,7 @@ def main():
 
 if st.button("Submit"):
     
-    if all(value and value.strip() for value in user_data.values()):
+    if all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values()):
         json_file_path = "user_data.json"
 
         user_json = json.dumps(user_data, indent=4)
