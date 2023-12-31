@@ -63,9 +63,6 @@ if st.button("Submit"):
         st.success("User data submitted successfully!")
     else:
         st.warning("Please fill in all the required fields and upload an image.")
-        
-if "image" in user_data:
-    st.button("Image Added")
 
 if __name__ == "__main__":
     main()
