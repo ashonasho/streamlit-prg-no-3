@@ -39,18 +39,20 @@ def main():
     uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
 
     if uploaded_file is not None:
+
         image_data = base64.b64encode(uploaded_file.read()).decode("utf-8")
+
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
         st.write("")
         st.write("Classifying... (add your image processing logic here)")
 
         user_data["image"] = image_data
 
-json_file_path = "user_data.json"
+
 
 if st.button("Submit"):
     
-    if all(value for value in user_data.values()):
+    if all(value and value.strip() for value in user_data.values()):
         
         user_json = json.dumps(user_data, indent=4)
 
