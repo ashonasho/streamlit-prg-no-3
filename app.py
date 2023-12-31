@@ -5,3 +5,5 @@ st.header("In the world of our Dating App, possibilities are endless. Discover t
 
 name = st.text_input("")
 st.write("welcome", name)
+firstname = st.text_input("Firstname", placeholder="Enter your first name")
+secondname = st.text_input("Secondname", placeholder="Enter your second name")
