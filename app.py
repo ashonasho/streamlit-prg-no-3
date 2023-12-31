@@ -44,7 +44,6 @@ def main():
 
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
         st.write("")
-        st.write("Classifying... (add your image processing logic here)")
 
         user_data["image"] = image_data
 
