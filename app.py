@@ -60,6 +60,9 @@ def main():
                 json_file.write(user_json)
 
             st.success("User data submitted successfully!")
+            st.title("Date's Information")
+            date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
+            
         elif not all_fields_filled:
             st.warning("Please fill in all the required fields and upload an image.")
 
