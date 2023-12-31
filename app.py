@@ -1,6 +1,7 @@
 import streamlit as st 
 import datetime
-
+import json
+import base64
 
 st.title("Let's Date")
 st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
@@ -18,6 +19,17 @@ heigth = st.number_input("Your Height", value=None, placeholder="Enter Your Heig
 yourinterests = st.text_input("Your Interests", placeholder="Music type,Dance,Sports and etc")
 
 
+user_data = {
+    "name": name,
+    "firstname": firstname,
+    "secondname": secondname,
+    "birthdate": str(birthdate),
+    "religion": religion,
+    "job": job,
+    "gender": gender,
+    "height": height,
+    "interests": yourinterests
+
 
 def main():
     
@@ -30,7 +42,17 @@ def main():
         st.write("")
         st.write("Classifying... (add your image processing logic here)")
 
+json_file_path = "user_data.json"
+
+if st.button("submit"):
+    user_json = json.dumps(user_data, indent=4)
+
+    with open(json_file_path, "w") as json_file:
+        json_file.write(user_json)
+
+    st.success("User data submitted successfully!")
+
 if __name__ == "__main__":
     main()
 
-st.button("submit")
+
