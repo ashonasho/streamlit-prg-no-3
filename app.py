@@ -10,4 +10,4 @@ st.write("Welcome", name)
 
 firstname = st.text_input("Firstname", placeholder="Enter your first name")
 secondname = st.text_input("Secondname", placeholder="Enter your second name")
-birthdate= st.date_input("Birth Date", format="DD.MM.YYYY", placeholder="DD.MM.YYYY")
+birthdate= st.date_input("Birth Date", format="DD.MM.YYYY")
