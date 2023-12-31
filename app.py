@@ -14,7 +14,7 @@ secondname = st.text_input("Secondname", placeholder="Enter your second name / N
 birthdate= st.date_input("Birth Date", format="DD.MM.YYYY")
 religion = st.text_input("faith community", placeholder="Enter your religion / No religion")
 job = st.text_input("position of employment", placeholder="Job / Student / other")
-gender = st.radio("Your Gender", ["Male", "Female"])
+gender = st.radio("Your Gender", ["Male", "Female", "Other"])
 height = st.number_input("Your Height", value=None, placeholder="Enter Your Height in feet ")
 yourinterests = st.text_input("Your Interests", placeholder="Music type,Dance,Sports and etc")
 
