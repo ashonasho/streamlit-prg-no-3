@@ -29,6 +29,7 @@ user_data = {
     "gender": gender,
     "height": height,
     "interests": yourinterests
+}
 
 
 def main():
