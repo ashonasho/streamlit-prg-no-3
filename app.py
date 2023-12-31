@@ -49,20 +49,20 @@ def main():
 
 
 
-if st.button("Submit"):
-    
-    if all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values()):
-        json_file_path = "user_data.json"
+        if st.button("Submit"):
+            
+            if all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values()):
+                json_file_path = "user_data.json"
 
-        user_json = json.dumps(user_data, indent=4)
+                user_json = json.dumps(user_data, indent=4)
 
-        
-        with open(json_file_path, "w") as json_file:
-            json_file.write(user_json)
+                
+                with open(json_file_path, "w") as json_file:
+                    json_file.write(user_json)
 
-        st.success("User data submitted successfully!")
-    else:
-        st.warning("Please fill in all the required fields and upload an image.")
+                st.success("User data submitted successfully!")
+            else:
+                st.warning("Please fill in all the required fields and upload an image.")
 
 if __name__ == "__main__":
     main()
