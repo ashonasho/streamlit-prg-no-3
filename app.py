@@ -1,6 +1,8 @@
 import streamlit as st 
 import datetime
 import json
+import base64
+import os
 
 def main():
     st.title("Let's Date")
@@ -44,9 +46,18 @@ def main():
         # Show the submit button only when all requirements are filled
         if all_fields_filled and st.button("Submit"):
             json_file_path = "user_data.json"
-            user_data["image"] = uploaded_file
+            # Save the uploaded file with a unique name
+            if not os.path.exists("uploads"):
+                os.makedirs("uploads")
+            file_name = os.path.join("uploads", uploaded_file.name)
+            with open(file_name, "wb") as file:
+                file.write(uploaded_file.read())
+            user_data["image"] = file_name
+
+            # Convert the user data to JSON
             user_json = json.dumps(user_data, indent=4)
 
+            # Save the JSON data to a file
             with open(json_file_path, "w") as json_file:
                 json_file.write(user_json)
 
