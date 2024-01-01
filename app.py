@@ -4,21 +4,11 @@ import json
 import base64
 
 def main():
+    with open("user_data.json", "r") as json_file:
+        user_data_list = json.load(json_file)
+
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
-
-    # Load existing user data from JSON file
-    json_file_path = "user_data.json"
-    user_data_list = []
-    try:
-        with open(json_file_path, "r") as json_file:
-            user_data_list = json.load(json_file)
-    except FileNotFoundError:
-        pass
-
-    # Display all user data
-    st.title("User Data")
-    st.json(user_data_list)
 
     name = st.text_input("Your name", placeholder="short name / your name")
     st.write("Welcome", name)
@@ -65,7 +55,7 @@ def main():
             user_data_list.append(user_data)
 
             # Write the updated user data back to the JSON file
-            with open(json_file_path, "w") as json_file:
+            with open("user_data.json", "w") as json_file:
                 json.dump(user_data_list, json_file, indent=4)
 
             st.success("User data submitted and appended successfully!")
@@ -83,6 +73,10 @@ def main():
                 if submit_date_info:
                     # Process and save date's information
                     st.success("Date's information submitted successfully!")
+
+                    # Load user data from JSON file
+                    with open("user_data.json", "r") as json_file:
+                        user_data_list = json.load(json_file)
 
                     # Filter user data based on high preference
                     if "gender & religion" in high_preference:
