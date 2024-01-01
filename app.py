@@ -7,6 +7,12 @@ def main():
     with open("user_data.json", "r") as json_file:
             
             user_data_list = json.load(json_file)
+            user_data_list = []
+            try:
+                with open(json_file_path, "r") as json_file:
+                    user_data_list = json.load(json_file)
+            except FileNotFoundError:
+                pass
     
     st.json(user_data_list)
     st.title("Let's Date")
