@@ -4,6 +4,11 @@ import json
 import base64
 
 def main():
+    with open("user_data.json", "r") as json_file:
+            
+            user_data_list = json.load(json_file)
+    
+    st.json(user_data_list)
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
 
