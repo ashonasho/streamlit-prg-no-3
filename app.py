@@ -10,14 +10,14 @@ def main():
     name = st.text_input("Your name", placeholder="short name / your name")
     st.write("Welcome", name)
 
-    firstname = st.text_input("Firstname", placeholder="Enter your first name")
-    secondname = st.text_input("Secondname", placeholder="Enter your second name / No second name")
-    birthdate = st.date_input("Birth Date", format="DD.MM.YYYY")
-    religion = st.text_input("Faith community", placeholder="Enter your religion / No religion")
-    job = st.text_input("Position of employment", placeholder="Job / Student / other")
-    gender = st.radio("Your Gender", ["Male", "Female", "Other"])
-    height = st.number_input("Your Height", value=None, placeholder="Enter Your Height in feet ")
-    yourinterests = st.text_input("Your Interests", placeholder="Music type, Dance, Sports and etc")
+    firstname = st.text_input("Firstname", placeholder="Enter your first name", required=True)
+    secondname = st.text_input("Secondname", placeholder="Enter your second name / No second name", required=True)
+    birthdate = st.date_input("Birth Date", format="DD.MM.YYYY", required=True)
+    religion = st.text_input("Faith community", placeholder="Enter your religion / No religion", required=True)
+    job = st.text_input("Position of employment", placeholder="Job / Student / other", required=True)
+    gender = st.radio("Your Gender", ["Male", "Female", "Other"], required=True)
+    height = st.number_input("Your Height", value=None, placeholder="Enter Your Height in feet ", required=True)
+    yourinterests = st.text_input("Your Interests", placeholder="Music type, Dance, Sports and etc", required=True)
 
     user_data = {
         "name": name,
@@ -59,10 +59,10 @@ def main():
             # After submitting user data, create a new form to ask for date's information
             with st.form("date_info_form"):
                 st.title("Date's Information")
-                date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
-                date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
-                date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
-                high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
+                date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender", required=True)
+                date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion", required=True)
+                date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other", required=True)
+                high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All", required=True)
 
                 submit_date_info = st.form_submit_button("Submit Date's Information")
 
