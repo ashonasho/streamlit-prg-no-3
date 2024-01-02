@@ -4,7 +4,7 @@ import json
 import base64
 
 def main():
-    json_file_path = "user_data.json"  # Define the JSON file path
+    json_file_path = "user_data.json"
 
     # Try to load existing data, or create an empty list if the file doesn't exist
     try:
@@ -13,9 +13,6 @@ def main():
     except (FileNotFoundError, json.JSONDecodeError):
         user_data_list = []
 
-    st.json(user_data_list)
-            
-    
     st.json(user_data_list)
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
@@ -36,7 +33,7 @@ def main():
         "name": name,
         "firstname": firstname,
         "secondname": secondname,
-        "birthdate": str(birthdate) if birthdate is not None else None, 
+        "birthdate": str(birthdate) if birthdate is not None else None,
         "religion": religion,
         "job": job,
         "gender": gender,
@@ -50,26 +47,25 @@ def main():
 
     if uploaded_file is not None:
         image_data = base64.b64encode(uploaded_file.read()).decode("utf-8")
-
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
         st.write("")
-
         user_data["image"] = image_data
 
-        # Check if all required fields and image are filled
-        all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
+    # Check if all required fields and image are filled
+    all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
 
-        # Show the submit button only when all requirements are filled
-        if all_fields_filled and st.button("Submit"):
-            user_data_list.append(user_data)
-            
-            with open(json_file_path, "w") as file:
-                json.dump(user_data_list, file, indent=4)
+    if all_fields_filled and st.button("Submit"):
+        # Append the new user data to the list
+        user_data_list.append(user_data)
 
-            st.success("User data submitted successfully!")
+        # Write the updated list back to the JSON file
+        with open(json_file_path, "w") as file:
+            json.dump(user_data_list, file, indent=4)
 
-            # After submitting user data, create a new form to ask for date's information
-            with st.form("date_info_form"):
+        st.success("User data submitted successfully!")
+
+    # Code for Date's Information form here...
+        with st.form("date_info_form"):
                 st.title("Date's Information")
                 date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
                 date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
@@ -100,6 +96,7 @@ def main():
                         st.json(filtered_data)
                     else:
                         st.warning("No matching users found based on high preference.")
+
 
 if __name__ == "__main__":
     main()
