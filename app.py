@@ -9,14 +9,10 @@ def save_user_data(user_data_list):
     with open(json_file_path, "w") as json_file:
         json.dump(user_data_list, json_file, indent=4)
 
+# Function to generate a download link for the JSON data
 def get_table_download_link(json_data):
-    """
-    Generates a link allowing the data in a given pandas dataframe to be downloaded
-    in:  dataframe
-    out: href string
-    """
     val = json.dumps(json_data, indent=4)
-    b64 = base64.b64encode(val.encode()).decode()  # val looks like b'...'
+    b64 = base64.b64encode(val.encode()).decode()
     href = f'<a href="data:file/json;base64,{b64}" download="user_data.json">Download JSON File</a>'
     return href
 
@@ -36,6 +32,7 @@ def main():
 
     user_data_list = load_user_data()
 
+    # User input fields
     name = st.text_input("Your name", placeholder="short name / your name")
     st.write("Welcome", name)
 
@@ -61,61 +58,33 @@ def main():
     }
 
     st.title("Please upload your image.")
-
     uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
 
     if uploaded_file is not None:
         image_data = base64.b64encode(uploaded_file.read()).decode("utf-8")
-
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
         st.write("")
-
         user_data["image"] = image_data
 
-        # Check if all required fields and image are filled
-        all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
+    # Initialize a flag for successful submission
+    data_submitted = False
 
-        # Show the submit button only when all requirements are filled
-        if all_fields_filled and st.button("Submit"):
-            user_data_list.append(user_data)
-            
-            # Save the updated user data to the JSON file
-            save_user_data(user_data_list)
+    # Check if all required fields and image are filled
+    all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
 
-            st.success("User data submitted successfully!")
+    # Show the submit button only when all requirements are filled
+    if all_fields_filled and st.button("Submit"):
+        user_data_list.append(user_data)
+        
+        # Save the updated user data to the JSON file
+        save_user_data(user_data_list)
 
-            # After submitting user data, create a new form to ask for date's information
-            with st.form("date_info_form"):
-                st.title("Date's Information")
-                date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
-                date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
-                date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
-                high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
+        st.success("User data submitted successfully!")
+        data_submitted = True  # Update the flag after successful submission
 
-                submit_date_info = st.form_submit_button("Submit Date's Information")
-
-                if submit_date_info:
-                    # Process and save date's information
-                    st.success("Date's information submitted successfully!")
-
-                    # Load user data from JSON file
-                    user_data_list = load_user_data()
-
-                # Filter user data based on high preference
-                if "gender & religion" in high_preference:
-                    filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion]
-                elif "gender & job" in high_preference:
-                    filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("job") == date_job]
-                else:
-                    filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion and user.get("job") == date_job]
-
-                # Display filtered data to the user
-                if filtered_data:
-                    st.title("Filtered Users Based on High Preference")
-                    st.json(filtered_data)
-                else:
-                    st.warning("No matching users found based on high preference.")
-    st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
+    # Display the download link only after successful submission
+    if data_submitted:
+        st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
