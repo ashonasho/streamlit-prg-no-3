@@ -92,6 +92,38 @@ def main():
     if st.button('Download Dates Data JSON'):
         dates_data_list = load_user_data("dates_data.json")
         st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
+    # ... [Previous code]
+
+    # Date's information form
+    with st.form("date_info_form"):
+        st.title("Date's Information")
+        date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
+        date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
+        date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
+        high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
+
+        # Check if all fields in the date form are filled
+        all_date_fields_filled = all([date_gender, date_religion, date_job, high_preference])
+
+        # Submit button for the date's form
+        submit_date_info = st.form_submit_button("Submit Date's Information", disabled=not all_date_fields_filled)
+
+        if submit_date_info:
+            # Process and save date's information
+            st.success("Date's information submitted successfully!")
+
+            # Load user data from JSON file
+            dates_data_list = load_user_data("dates_data.json")
+            date_info = {
+                "date_gender": date_gender,
+                "date_religion": date_religion,
+                "date_job": date_job,
+                "high_preference": high_preference
+            }
+            dates_data_list.append(date_info)
+            save_user_data(dates_data_list, "dates_data.json")
+
+# ... [Rest of your code]
 
 if __name__ == "__main__":
     main()
