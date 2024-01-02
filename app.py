@@ -76,6 +76,9 @@ def main():
             st.success("User data submitted successfully!")
 
     # Date's information form
+    # ... [Previous code]
+
+    # Date's information form
     with st.form("date_info_form"):
         st.title("Date's Information")
         date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
@@ -83,8 +86,11 @@ def main():
         date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
         high_preference = st.text_input("High Preference", placeholder="Date's gender & religion / gender & job / All")
 
-        # Submit button for the date's form
-        submit_date_info = st.form_submit_button("Submit Date's Information")
+        # Check if all required fields in the date form are filled
+        all_date_fields_filled = all([date_gender, date_religion, date_job, high_preference])
+
+        # Submit button for the date's form, enabled only when all fields are filled
+        submit_date_info = st.form_submit_button("Submit Date's Information", disabled=not all_date_fields_filled)
 
         if submit_date_info:
             # Process and save date's information
@@ -100,6 +106,8 @@ def main():
             }
             dates_data_list.append(date_info)
             save_user_data(dates_data_list, "dates_data.json")
+
+
 
     # Download button for user JSON data
     if st.button('Download User Data JSON'):
