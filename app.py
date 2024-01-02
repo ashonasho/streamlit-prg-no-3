@@ -2,6 +2,7 @@ import streamlit as st
 import datetime
 import json
 import base64
+import os
 
 # Function to save user data to a JSON file
 def save_user_data(user_data_list):
@@ -9,12 +10,8 @@ def save_user_data(user_data_list):
     with open(json_file_path, "w") as json_file:
         json.dump(user_data_list, json_file, indent=4)
 
+# Function to generate a download link for the JSON data
 def get_table_download_link(json_data):
-    """
-    Generates a link allowing the data in a given pandas dataframe to be downloaded
-    in:  dataframe
-    out: href string
-    """
     val = json.dumps(json_data, indent=4)
     b64 = base64.b64encode(val.encode()).decode()  # val looks like b'...'
     href = f'<a href="data:file/json;base64,{b64}" download="user_data.json">Download JSON File</a>'
@@ -66,10 +63,8 @@ def main():
 
     if uploaded_file is not None:
         image_data = base64.b64encode(uploaded_file.read()).decode("utf-8")
-
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
         st.write("")
-
         user_data["image"] = image_data
 
         # Check if all required fields and image are filled
@@ -116,6 +111,10 @@ def main():
                 else:
                     st.warning("No matching users found based on high preference.")
     
+    # Download button for JSON data
+    if st.button('Download JSON Data'):
+        user_data_list = load_user_data()
+        st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
