@@ -2,7 +2,6 @@ import streamlit as st
 import datetime
 import json
 import base64
-import os
 
 # Function to save user data to a JSON file
 def save_user_data(user_data_list, file_name="user_data.json"):
@@ -43,14 +42,14 @@ def main():
     religion = st.text_input("Faith community", placeholder="Enter your religion / No religion")
     job = st.text_input("Position of employment", placeholder="Job / Student / other")
     gender = st.radio("Your Gender", ["Male", "Female", "Other"])
-    height = st.number_input("Your Height", value=None, placeholder="Enter Your Height in feet ")
+    height = st.number_input("Your Height", value=0, placeholder="Enter Your Height in feet ")
     yourinterests = st.text_input("Your Interests", placeholder="Music type, Dance, Sports and etc")
 
     user_data = {
         "name": name,
         "firstname": firstname,
         "secondname": secondname,
-        "birthdate": str(birthdate) if birthdate is not None else None, 
+        "birthdate": str(birthdate) if birthdate else "", 
         "religion": religion,
         "job": job,
         "gender": gender,
@@ -58,7 +57,6 @@ def main():
         "interests": yourinterests
     }
 
-    # Image upload
     st.title("Please upload your image.")
     uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
 
@@ -80,39 +78,19 @@ def main():
     # Date's information form
     with st.form("date_info_form"):
         st.title("Date's Information")
-        # ... [Date's information fields]
-        # Add the date's information fields and logic as per your requirement
-
-    # Download button for user JSON data
-    if st.button('Download User Data JSON'):
-        user_data_list = load_user_data()
-        st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
-
-    # Download button for dates JSON data
-    if st.button('Download Dates Data JSON'):
-        dates_data_list = load_user_data("dates_data.json")
-        st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
-    # ... [Previous code]
-
-    # Date's information form
-    with st.form("date_info_form"):
-        st.title("Date's Information")
         date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
         date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
         date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
-        high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
-
-        # Check if all fields in the date form are filled
-        all_date_fields_filled = all([date_gender, date_religion, date_job, high_preference])
+        high_preference = st.text_input("High Preference", placeholder="Date's gender & religion / gender & job / All")
 
         # Submit button for the date's form
-        submit_date_info = st.form_submit_button("Submit Date's Information", disabled=not all_date_fields_filled)
+        submit_date_info = st.form_submit_button("Submit Date's Information")
 
         if submit_date_info:
             # Process and save date's information
             st.success("Date's information submitted successfully!")
 
-            # Load user data from JSON file
+            # Load date's data from JSON file
             dates_data_list = load_user_data("dates_data.json")
             date_info = {
                 "date_gender": date_gender,
@@ -123,7 +101,15 @@ def main():
             dates_data_list.append(date_info)
             save_user_data(dates_data_list, "dates_data.json")
 
-# ... [Rest of your code]
+    # Download button for user JSON data
+    if st.button('Download User Data JSON'):
+        user_data_list = load_user_data()
+        st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
+
+    # Download button for dates JSON data
+    if st.button('Download Dates Data JSON'):
+        dates_data_list = load_user_data("dates_data.json")
+        st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
