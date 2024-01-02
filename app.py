@@ -4,9 +4,16 @@ import json
 import base64
 
 def main():
-    with open("user_data.json", "r") as json_file:
-            
-        user_data_list = json.load(json_file)
+    json_file_path = "user_data.json"  # Define the JSON file path
+
+    # Try to load existing data, or create an empty list if the file doesn't exist
+    try:
+        with open(json_file_path, "r") as json_file:
+            user_data_list = json.load(json_file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        user_data_list = []
+
+    st.json(user_data_list)
             
     
     st.json(user_data_list)
@@ -53,60 +60,46 @@ def main():
         all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
 
         # Show the submit button only when all requirements are filled
-        # Check if all required fields and image are filled
-all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
+        if all_fields_filled and st.button("Submit"):
+            user_data_list.append(user_data)
+            
+            with open(json_file_path, "w") as file:
+                json.dump(user_data_list, file, indent=4)
 
-# Show the submit button only when all requirements are filled
-if all_fields_filled and st.button("Submit"):
-    # Read existing data from the JSON file
-    try:
-        with open("user_data.json", "r") as file:
-            existing_data = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        existing_data = []
+            st.success("User data submitted successfully!")
 
-    # Append new user data to the existing data
-    existing_data.append(user_data)
+            # After submitting user data, create a new form to ask for date's information
+            with st.form("date_info_form"):
+                st.title("Date's Information")
+                date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
+                date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
+                date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
+                high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
 
-    # Write the updated data back to the JSON file
-    with open("user_data.json", "w") as file:
-        json.dump(existing_data, file, indent=4)
+                submit_date_info = st.form_submit_button("Submit Date's Information")
 
-    st.success("User data submitted successfully!")
+                if submit_date_info:
+                    # Process and save date's information
+                    st.success("Date's information submitted successfully!")
 
+                    # Load user data from JSON file
+                    with open(json_file_path, "r") as json_file:
+                        user_data_list = json.load(json_file)
 
-    # After submitting user data, create a new form to ask for date's information
-    with st.form("date_info_form"):
-        st.title("Date's Information")
-        date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
-        date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
-        date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
-        high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
+                    # Filter user data based on high preference
+                    if "gender & religion" in high_preference:
+                        filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion]
+                    elif "gender & job" in high_preference:
+                        filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("job") == date_job]
+                    else:
+                        filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion and user.get("job") == date_job]
 
-        submit_date_info = st.form_submit_button("Submit Date's Information")
-
-        if submit_date_info:
-            # Process and save date's information
-            st.success("Date's information submitted successfully!")
-
-            # Load user data from JSON file
-            with open(json_file_path, "r") as json_file:
-                user_data_list = json.load(json_file)
-
-            # Filter user data based on high preference
-            if "gender & religion" in high_preference:
-                filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion]
-            elif "gender & job" in high_preference:
-                filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("job") == date_job]
-            else:
-                filtered_data = [user for user in user_data_list if user.get("gender") == date_gender and user.get("religion") == date_religion and user.get("job") == date_job]
-
-            # Display filtered data to the user
-            if filtered_data:
-                st.title("Filtered Users Based on High Preference")
-                st.json(filtered_data)
-            else:
-                st.warning("No matching users found based on high preference.")
+                    # Display filtered data to the user
+                    if filtered_data:
+                        st.title("Filtered Users Based on High Preference")
+                        st.json(filtered_data)
+                    else:
+                        st.warning("No matching users found based on high preference.")
 
 if __name__ == "__main__":
     main()
