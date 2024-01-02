@@ -104,3 +104,5 @@ def main():
                     if filtered_data:
                         st.title("Filtered Users Based on High Preference")
                         st.json
+if __name__ == "__main__":
+    main()
