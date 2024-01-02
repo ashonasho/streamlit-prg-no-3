@@ -33,7 +33,9 @@ def main():
 
     user_data_list = load_user_data()
 
-    # User input fields
+    # User data input fields
+    # ...
+    
     name = st.text_input("Your name", placeholder="short name / your name")
     st.write("Welcome", name)
 
@@ -58,21 +60,12 @@ def main():
         "interests": yourinterests
     }
 
-    # Image upload
     st.title("Please upload your image.")
+
     uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
-
     if uploaded_file is not None:
-        image_data = base64.b64encode(uploaded_file.read()).decode("utf-8")
-        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
-        st.write("")
-        user_data["image"] = image_data
-
-        # Check if all required fields and image are filled
-        all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
-
-        # Submit button for user data
-        if all_fields_filled and st.button("Submit User Data"):
+        # ...
+        if all_fields_filled and st.button("Submit"):
             user_data_list.append(user_data)
             save_user_data(user_data_list)
             st.success("User data submitted successfully!")
@@ -80,8 +73,27 @@ def main():
     # Date's information form
     with st.form("date_info_form"):
         st.title("Date's Information")
-        # ... [Date's information fields]
-        # Add the date's information fields and logic as per your requirement
+        date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
+        date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
+        date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
+        high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
+
+        submit_date_info = st.form_submit_button("Submit Date's Information")
+
+        if submit_date_info:
+            # Process and save date's information
+            st.success("Date's information submitted successfully!")
+
+            # Load user data from JSON file
+            dates_data_list = load_user_data("dates_data.json")
+            date_info = {
+                "date_gender": date_gender,
+                "date_religion": date_religion,
+                "date_job": date_job,
+                "high_preference": high_preference
+            }
+            dates_data_list.append(date_info)
+            save_user_data(dates_data_list, "dates_data.json")
 
     # Download button for user JSON data
     if st.button('Download User Data JSON'):
