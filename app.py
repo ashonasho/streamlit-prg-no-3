@@ -81,7 +81,7 @@ def main():
                 date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
                 high_preference = st.text_input("High Preference", placeholder=" Date's gender & religion / gender & job/ All")
 
-            submit_date_info = st.form_submit_button("Submit Date's Information")
+                submit_date_info = st.form_submit_button("Submit Date's Information")
 
             if submit_date_info:
                 # Process and save date's information
