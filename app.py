@@ -38,22 +38,22 @@ def main():
 
     firstname = st.text_input("Firstname", placeholder="Enter your first name")
     secondname = st.text_input("Secondname", placeholder="Enter your second name / No second name")
-    birthdate = st.date_input("Birth Date", format="DD.MM.YYYY")
+    birthdate = st.date_input("Birth Date")
     religion = st.text_input("Faith community", placeholder="Enter your religion / No religion")
     job = st.text_input("Position of employment", placeholder="Job / Student / other")
     gender = st.radio("Your Gender", ["Male", "Female", "Other"])
-    height = st.number_input("Your Height", value=None, placeholder="Enter Your Height in feet ")
+    height = st.number_input("Your Height", min_value=0.0, max_value=10.0, step=0.1, format="%.2f")
     yourinterests = st.text_input("Your Interests", placeholder="Music type, Dance, Sports and etc")
 
     user_data = {
         "name": name,
         "firstname": firstname,
         "secondname": secondname,
-        "birthdate": str(birthdate) if birthdate is not None else None, 
+        "birthdate": str(birthdate) if birthdate else "", 
         "religion": religion,
         "job": job,
         "gender": gender,
-        "height": height,
+        "height": height if height else 0,
         "interests": yourinterests
     }
 
@@ -66,13 +66,10 @@ def main():
         st.write("")
         user_data["image"] = image_data
 
-    # Initialize a flag for successful submission
-    data_submitted = False
-
     # Check if all required fields and image are filled
     all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
 
-    # Show the submit button only when all requirements are filled
+    # Submit button
     if all_fields_filled and st.button("Submit"):
         user_data_list.append(user_data)
         
@@ -80,11 +77,11 @@ def main():
         save_user_data(user_data_list)
 
         st.success("User data submitted successfully!")
-        data_submitted = True  # Update the flag after successful submission
-
-    # Display the download link only after successful submission
-    if data_submitted:
-        st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
+    
+    # Dynamic download link
+    if st.button('Download JSON Data'):
+        updated_user_data_list = load_user_data()  # Load the most recent user data
+        st.markdown(get_table_download_link(updated_user_data_list), unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
