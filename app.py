@@ -3,15 +3,18 @@ import datetime
 import json
 import base64
 
-def main():
-    json_file_path = "user_data.json"  # Define the JSON file path
+# Define the JSON file path
+json_file_path = "user_data.json"
 
-    # Try to load existing data, or create an empty list if the file doesn't exist
-    try:
-        with open(json_file_path, "r") as json_file:
-            user_data_list = json.load(json_file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        user_data_list = []
+# Try to load existing data, or create an empty list if the file doesn't exist
+try:
+    with open(json_file_path, "r") as json_file:
+        user_data_list = json.load(json_file)
+except (FileNotFoundError, json.JSONDecodeError):
+    user_data_list = []
+
+def main():
+    global user_data_list  # Make user_data_list a global variable
 
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
