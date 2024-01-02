@@ -83,12 +83,12 @@ def main():
 
                 submit_date_info = st.form_submit_button("Submit Date's Information")
 
-            if submit_date_info:
-                # Process and save date's information
-                st.success("Date's information submitted successfully!")
+                if submit_date_info:
+                    # Process and save date's information
+                    st.success("Date's information submitted successfully!")
 
-                # Load user data from JSON file
-                user_data_list = load_user_data()
+                    # Load user data from JSON file
+                    user_data_list = load_user_data()
 
                 # Filter user data based on high preference
                 if "gender & religion" in high_preference:
