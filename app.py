@@ -3,28 +3,22 @@ import datetime
 import json
 import base64
 
-# Function to save user data to a JSON file
-def save_user_data(user_data_list):
-    json_file_path = "user_data.json"
-    with open(json_file_path, "w") as json_file:
-        json.dump(user_data_list, json_file, indent=4)
+def main():
+    json_file_path = "user_data.json"  # Define the JSON file path
 
-# Function to load user data from a JSON file
-def load_user_data():
-    json_file_path = "user_data.json"
+    # Try to load existing data, or create an empty list if the file doesn't exist
     try:
         with open(json_file_path, "r") as json_file:
             user_data_list = json.load(json_file)
     except (FileNotFoundError, json.JSONDecodeError):
         user_data_list = []
-    return user_data_list
 
-def main():
+    st.json(user_data_list)
+
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
 
-    user_data_list = load_user_data()
-
+    # User input fields
     name = st.text_input("Your name", placeholder="short name / your name")
     st.write("Welcome", name)
 
@@ -66,12 +60,19 @@ def main():
 
         # Show the submit button only when all requirements are filled
         if all_fields_filled and st.button("Submit"):
+            # Save user data to the JSON file
             user_data_list.append(user_data)
-            
-            # Save the updated user data to the JSON file
-            save_user_data(user_data_list)
+            with open(json_file_path, "w") as json_file:
+                json.dump(user_data_list, json_file, indent=4)
 
             st.success("User data submitted successfully!")
+
+            # Load and display the updated JSON data
+            with open(json_file_path, "r") as json_file:
+                updated_user_data_list = json.load(json_file)
+
+            st.title("Updated User Data")
+            st.json(updated_user_data_list)
 
             # After submitting user data, create a new form to ask for date's information
             with st.form("date_info_form"):
@@ -88,7 +89,8 @@ def main():
                     st.success("Date's information submitted successfully!")
 
                     # Load user data from JSON file
-                    user_data_list = load_user_data()
+                    with open(json_file_path, "r") as json_file:
+                        user_data_list = json.load(json_file)
 
                     # Filter user data based on high preference
                     if "gender & religion" in high_preference:
@@ -101,9 +103,4 @@ def main():
                     # Display filtered data to the user
                     if filtered_data:
                         st.title("Filtered Users Based on High Preference")
-                        st.json(filtered_data)
-                    else:
-                        st.warning("No matching users found based on high preference.")
-
-if __name__ == "__main__":
-    main()
+                        st.json
