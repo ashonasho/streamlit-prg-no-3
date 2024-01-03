@@ -107,6 +107,58 @@ def main():
             dates_data_list.append(date_info)
             save_user_data(dates_data_list, "dates_data.json")
 
+            # [Include your previous code here]
+
+    if submit_date_info:
+        # Load date's data and user data from JSON files
+        dates_data_list = load_user_data("dates_data.json")
+        user_data_list = load_user_data()
+
+        # Current date's preferences
+        current_date_preferences = {
+            "gender": date_gender,
+            "religion": date_religion,
+            "job": date_job
+        }
+
+        # Check preferences and find matching profiles
+        matching_profiles = []
+        for user in user_data_list:
+            if high_preference == "Date's gender & religion":
+                if user['gender'] == current_date_preferences['gender'] and user['religion'] == current_date_preferences['religion']:
+                    matching_profiles.append(user)
+            elif high_preference == "gender & job":
+                if user['gender'] == current_date_preferences['gender'] and user['job'] == current_date_preferences['job']:
+                    matching_profiles.append(user)
+            elif high_preference == "All":
+                if user['gender'] == current_date_preferences['gender'] and user['religion'] == current_date_preferences['religion'] and user['job'] == current_date_preferences['job']:
+                    matching_profiles.append(user)
+
+        # Display matching profiles
+        if matching_profiles:
+            for profile in matching_profiles:
+                st.subheader(f"{profile['name']} - {profile['job']}")
+                st.write(f"Religion: {profile['religion']}")
+                st.write(f"Interests: {profile['interests']}")
+                if 'image' in profile:
+                    st.image(base64.b64decode(profile['image']), caption=profile['name'], use_column_width=True)
+        else:
+            st.write("No matching profiles found.")
+
+    # Download button for user JSON data
+    if st.button('Download User Data JSON'):
+        user_data_list = load_user_data()
+        st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
+
+    # Download button for dates JSON data
+    if st.button('Download Dates Data JSON'):
+        dates_data_list = load_user_data("dates_data.json")
+        st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
+
+
 
 
     # Download button for user JSON data
@@ -118,6 +170,7 @@ def main():
     if st.button('Download Dates Data JSON'):
         dates_data_list = load_user_data("dates_data.json")
         st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
+    
 
 if __name__ == "__main__":
     main()
