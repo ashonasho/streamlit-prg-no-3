@@ -42,7 +42,7 @@ def main():
     religion = st.selectbox("Religion", options=["Hindu","Rc","Non Rc","Muslim","Buddhism"], key="religion" )
     job = st.selectbox("Position of employment",options=["Doctor","Engineer","Nurse","Software Engineer","Teacher","App developer","Farmer","Businessman","Software Developer","Coach","Qs","Architect","Banker","District coordinator","TL","HR","Dentist","Manager","Waiter","Technicians","Scientist","Care aker","Barber","AI developer","Tailor","Delivery service","House Cleaner","Driver","Attendant","Part-timer","Student","actor","Other","No job"], key="job")
     gender = st.radio("Your Gender", ["Male", "Female", "Other"])
-    height = st.number_input("Your Height", value=0, placeholder="Enter Your Height in feet ")
+    height = st.number_input("Your Height", value=None, placeholder="Enter Your Height in feet ")
     yourinterests = st.text_input("Your Interests", placeholder="Music type, Dance, Sports and etc")
 
     user_data = {
