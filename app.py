@@ -39,8 +39,8 @@ def main():
     firstname = st.text_input("Firstname", placeholder="Enter your first name")
     secondname = st.text_input("Secondname", placeholder="Enter your second name / No second name")
     birthdate = st.date_input("Birth Date", format="DD.MM.YYYY")
-    religion = st.text_input("Faith community", placeholder="Enter your religion / No religion")
-    job = st.text_input("Position of employment", placeholder="Job / Student / other")
+    religion = st.selectbox("Religion", options=["Hindu","Rc","Non Rc","Muslim","Buddhism"], key="religion" )
+    job = st.selectbox("Position of employment",options=["Doctor","Engineer","Nurse","Software Engineer","Teacher","App developer","Farmer","Businessman","Software Developer","Coach","Qs","Architect","Banker","District coordinator","TL","HR","Dentist","Manager","Waiter","Technicians","Scientist","Care aker","Barber","AI developer","Tailor","Delivery service","House Cleaner","Driver","Attendant","Part-timer","Student","Other","No job"], key="religion")
     gender = st.radio("Your Gender", ["Male", "Female", "Other"])
     height = st.number_input("Your Height", value=0, placeholder="Enter Your Height in feet ")
     yourinterests = st.text_input("Your Interests", placeholder="Music type, Dance, Sports and etc")
@@ -78,10 +78,10 @@ def main():
     # Date's information form
     with st.form("date_info_form"):
         st.title("Date's Information")
-        date_gender = st.text_input("Date's Gender", placeholder="Enter date's gender")
-        date_religion = st.text_input("Date's faith community", placeholder="Enter date's religion / No religion")
-        date_job = st.text_input("Date's position of employment", placeholder="Job / Student / other")
-        high_preference = st.text_input("High Preference", placeholder="Date's gender & religion / gender & job / All")
+        date_gender = st.radio("Your Gender", ["Male", "Female", "Other"])
+        date_religion = st.selectbox("Date's Religion", options=["Hindu","Rc","Non Rc","Muslim","Buddhism"], key="date_religion" )
+        date_job = st.selectbox("Date's Job",options=["Doctor","Engineer","Nurse","Software Engineer","Teacher","App developer","Farmer","Businessman","Software Developer","Coach","Qs","Architect","Banker","District coordinator","TL","HR","Dentist","Manager","Waiter","Technicians","Scientist","Care aker","Barber","AI developer","Tailor","Delivery service","House Cleaner","Driver","Attendant","Part-timer","Student","Other","No job"], key=" date_job")
+        high_preference = st.selectbox("High Preference", options=["gender & religion", "gender & job", "All"], key="high_preference")
 
         # Check if all required fields in the date form are filled
         all_date_fields_filled = all([date_gender, date_religion, date_job, high_preference])
@@ -110,7 +110,7 @@ def main():
         # Check preferences and find matching profiles
         matching_profiles = []
         for user in user_data_list:
-            if high_preference == "Date's gender & religion" and user['gender'] == date_gender and user['religion'] == date_religion:
+            if high_preference == "gender & religion" and user['gender'] == date_gender and user['religion'] == date_religion:
                 matching_profiles.append(user)
             elif high_preference == "gender & job" and user['gender'] == date_gender and user['job'] == date_job:
                 matching_profiles.append(user)
