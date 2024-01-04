@@ -30,6 +30,10 @@ def load_user_data(file_name="user_data.json"):
         user_data_list = []
     return user_data_list
 
+def load_user_data_without_image():
+    bhjahja
+
+    
 # Function to call GPT-3.5 for match-finding prompts
 def call_gpt3_match_finding(prompt):
     response = openai.Completion.create(
@@ -109,6 +113,10 @@ def main():
     if submit_date_info:
         # Prepare a match-finding prompt
         match_finding_prompt = f"Find a match for a {date_gender} of {date_religion} religion and {date_job} job with high preference for {high_preference}"
+
+        user_data_list_without_image = load_user_data_without_image()
+
+        match_pre = f"Gender - {date_gender}, Religion - {date_religion}, Job - {date_job}, based on {high_preference} find a match for me from below user details. Give me details of the user full name and gender in a list. {user_data_list_without_image}"
 
         # Call GPT-3.5 to find a match based on the prompt
         match_result = call_gpt3_match_finding(match_finding_prompt)
