@@ -2,6 +2,10 @@ import streamlit as st
 import datetime
 import json
 import base64
+import openai
+
+# Set up your OpenAI API key
+openai.api_key = "YOUR_OPENAI_API_KEY_HERE"  # Replace with your actual OpenAI API key
 
 # Function to save user data to a JSON file
 def save_user_data(user_data_list, file_name="user_data.json"):
@@ -25,6 +29,19 @@ def load_user_data(file_name="user_data.json"):
     except (FileNotFoundError, json.JSONDecodeError):
         user_data_list = []
     return user_data_list
+
+# Function to call GPT-3.5 for match-finding prompts
+def call_gpt3_match_finding(prompt):
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=100,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+
+    return response.choices[0].text.strip()
 
 def main():
     st.title("Let's Date")
@@ -90,19 +107,13 @@ def main():
         submit_date_info = st.form_submit_button("Submit Date's Information", disabled=not all_date_fields_filled)
 
     if submit_date_info:
-        # Process and save date's information
-        st.success("Date's information submitted successfully!")
+        # Prepare a match-finding prompt
+        match_finding_prompt = f"Find a match for a {date_gender} of {date_religion} religion and {date_job} job with high preference for {high_preference}"
 
-        # Load date's data from JSON file
-        dates_data_list = load_user_data("dates_data.json")
-        date_info = {
-            "date_gender": date_gender,
-            "date_religion": date_religion,
-            "date_job": date_job,
-            "high_preference": high_preference
-        }
-        dates_data_list.append(date_info)
-        save_user_data(dates_data_list, "dates_data.json")
+        # Call GPT-3.5 to find a match based on the prompt
+        match_result = call_gpt3_match_finding(match_finding_prompt)
+
+        st.success("Date's information submitted successfully!")
 
         # Load user data again (in case new data was added)
         user_data_list = load_user_data()
@@ -110,6 +121,8 @@ def main():
         # Check preferences and find matching profiles
         matching_profiles = []
         for user in user_data_list:
+            # You can use the match_result to filter profiles or suggest matches based on GPT-3.5's response
+            # For example, you can use it to filter profiles by interests or other criteria.
             if high_preference == "gender & religion" and user['gender'] == date_gender and user['religion'] == date_religion:
                 matching_profiles.append(user)
             elif high_preference == "gender & job" and user['gender'] == date_gender and user['job'] == date_job:
