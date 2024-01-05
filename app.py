@@ -52,10 +52,33 @@ def call_gpt3_match_finding(prompt):
         max_tokens=100,
         n=1,
         stop=None,
-        temperature=0.7,
+        temperature=0.7
     )
 
     return response.choices[0].text.strip()
+
+def format_user_data_for_prompt(user_data_list):
+    # Format the user data list for the prompt
+    formatted_data = ""
+    for user in user_data_list:
+        formatted_data += f"Name: {user['name']}, Gender: {user['gender']}, Religion: {user['religion']}, Job: {user['job']}\n"
+    return formatted_data
+def process_gpt3_response(response_text):
+    # Process the response to extract match information
+    # Implement your logic here based on the response structure
+    matches = []
+    # Extract matches from response_text
+    return matches
+def display_matches(matches):
+    if matches:
+        for match in matches:
+            st.subheader(f"{match['name']} - {match['job']}")
+            st.write(f"Religion: {match['religion']}")
+            st.write(f"Interests: {match['interests']}")
+            # if 'image' in match:
+            #     st.image(base64.b64decode(match['image']), caption=match['name'], use_column_width=True)
+    else:
+        st.write("No matching profiles found.")
 
 def main():
     st.title("Let's Date")
@@ -121,21 +144,22 @@ def main():
         submit_date_info = st.form_submit_button("Submit Date's Information", disabled=not all_date_fields_filled)
 
     if submit_date_info:
-        # Prepare a match-finding prompt
-        match_finding_prompt = f"Find a match for a {date_gender} of {date_religion} religion and {date_job} job with high preference for {high_preference}"
+        match_finding_prompt = f"Find a match for a person with the following preferences: Gender - {date_gender}, Religion - {date_religion}, Job - {date_job}. The high preference is {high_preference}."
 
         user_data_list_without_image = load_user_data_without_image()
+        formatted_user_data = format_user_data_for_prompt(user_data_list_without_image)
 
-        match_pre = f"Gender - {date_gender}, Religion - {date_religion}, Job - {date_job}, based on {high_preference} find a match for me from below user details. Give me details of the user full name and gender in a list. {user_data_list_without_image}"
+        match_pre = f"{match_finding_prompt} Here are the potential matches: {formatted_user_data}"
 
-        # Call GPT-3.5 to find a match based on the prompt
-        match_result = call_gpt3_match_finding(match_finding_prompt)
+        try:
+            match_result = call_gpt3_match_finding(match_pre)
+            st.success("Date's information submitted successfully!")
 
-        st.success("Date's information submitted successfully!")
+            matches = process_gpt3_response(match_result)
+            display_matches(matches)
 
-        # Load user data again (in case new data was added)
-        user_data_list = load_user_data_without_image()
-
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
         # Check preferences and find matching profiles
         matching_profiles = []
         for user in user_data_list:
