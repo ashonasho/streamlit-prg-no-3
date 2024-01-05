@@ -79,8 +79,8 @@ def display_matches(matches):
             st.write(f"Interests: {match['interests']}")
             # if 'image' in match:
             #     st.image(base64.b64decode(match['image']), caption=match['name'], use_column_width=True)
-    else:
-        st.write("No matching profiles found.")
+    # else:
+    #     st.write("No matching profiles found.")
 
 def main():
     st.title("Let's Date")
