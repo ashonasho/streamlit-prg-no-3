@@ -59,7 +59,7 @@ def main():
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
 
-    user_data_list = load_user_data()
+    user_data_list = load_user_data_without_image()
 
     # User input fields
     name = st.text_input("Your name", placeholder="short name / your name")
@@ -132,7 +132,7 @@ def main():
         st.success("Date's information submitted successfully!")
 
         # Load user data again (in case new data was added)
-        user_data_list = load_user_data()
+        user_data_list = load_user_data_without_image()
 
         # Check preferences and find matching profiles
         matching_profiles = []
@@ -159,12 +159,12 @@ def main():
 
     # Download button for user JSON data
     if st.button('Download User Data JSON'):
-        user_data_list = load_user_data()
+        user_data_list = load_user_data_without_image()
         st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
 
     # Download button for dates JSON data
     if st.button('Download Dates Data JSON'):
-        dates_data_list = load_user_data("dates_data.json")
+        dates_data_list = load_user_data_without_image("dates_data.json")
         st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
 
 if __name__ == "__main__":
