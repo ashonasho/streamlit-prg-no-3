@@ -4,9 +4,9 @@ import datetime
 import json
 import base64
 import openai
+from openai import OpenAI
 
-# Set up your OpenAI API key
-openai.api_key = "YOUR_OPENAI_API_KEY"  # Replace with your actual OpenAI API key
+# Set up your OpenAI API key # Replace with your actual OpenAI API key
 
 # Specify the absolute path for the user_data.json file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -44,6 +44,8 @@ def load_user_data_without_image(file_path):
     return user_data_list
 
 def call_gpt3_match_finding(prompt):
+    
+    openai.api_key = "YOUR_OPENAI_API_KEY" 
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=prompt,
