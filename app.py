@@ -22,8 +22,10 @@ def load_user_data(file_name="user_data.json"):
         with open(file_name, "r") as json_file:
             user_data_list = json.load(json_file)
     except FileNotFoundError:
-        st.error(f"File not found: {file_name}")
+        st.warning(f"File not found: {file_name}. Creating a new file.")
         user_data_list = []
+        with open(file_name, "w") as json_file:
+            json.dump(user_data_list, json_file, indent=4)
     except json.JSONDecodeError:
         st.error(f"Error decoding JSON from file: {file_name}")
         user_data_list = []
