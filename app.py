@@ -8,8 +8,12 @@ import openai
 # Set up your OpenAI API key
 openai.api_key = "YOUR_OPENAI_API_KEY"  # Replace with your actual OpenAI API key
 
-def save_user_data(user_data_list, file_name):
-    with open(file_name, "w") as json_file:
+# Specify the absolute path for the user_data.json file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FILE = os.path.join(BASE_DIR, "user_data.json")
+
+def save_user_data(user_data_list, file_path):
+    with open(file_path, "w") as json_file:
         json.dump(user_data_list, json_file, indent=4)
 
 def get_table_download_link(json_data, file_name):
@@ -18,23 +22,23 @@ def get_table_download_link(json_data, file_name):
     href = f'<a href="data:file/json;base64,{b64}" download="{file_name}">Download JSON File</a>'
     return href
 
-def load_user_data(file_name):
-    if not os.path.isfile(file_name):
-        st.warning(f"File not found: {file_name}. Creating a new file.")
+def load_user_data(file_path):
+    if not os.path.isfile(file_path):
+        st.warning(f"File not found: {file_path}. Creating a new file.")
         return []
     
-    with open(file_name, "r") as json_file:
+    with open(file_path, "r") as json_file:
         try:
             return json.load(json_file)
         except json.JSONDecodeError:
-            st.error(f"Error decoding JSON from file: {file_name}")
+            st.error(f"Error decoding JSON from file: {file_path}")
             return []
         except Exception as e:
             st.error(f"An error occurred: {e}")
             return []
 
-def load_user_data_without_image(file_name):
-    user_data_list = load_user_data(file_name)
+def load_user_data_without_image(file_path):
+    user_data_list = load_user_data(file_path)
     for user_data in user_data_list:
         user_data.pop("image", None)  # Remove image data
     return user_data_list
@@ -54,13 +58,7 @@ def main():
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
 
-    # Display the current working directory for debugging
-    st.write("Current directory:", os.getcwd())
-
-    # Define the file name or path
-    FILE_NAME = "user_data.json"  # Modify this if the file is in a specific directory
-
-    user_data_list = load_user_data_without_image(FILE_NAME)  # Loading data without images
+    user_data_list = load_user_data_without_image(DATA_FILE)  # Loading data without images
 
     # User Input Fields
     name = st.text_input("Your name", placeholder="Short name / Your name")
@@ -93,7 +91,7 @@ def main():
         all_fields_filled = all(value for value in user_data.values() if isinstance(value, str))
         if all_fields_filled and st.button("Submit User Data"):
             user_data_list.append(user_data)
-            save_user_data(user_data_list, FILE_NAME)
+            save_user_data(user_data_list, DATA_FILE)
             st.success("User data submitted successfully!")
 
     # Date's Information Form
@@ -113,8 +111,8 @@ def main():
 
     # Download Buttons for User Data and Dates Data
     if st.button('Download User Data JSON'):
-        user_data_list = load_user_data_without_image(FILE_NAME)
-        st.markdown(get_table_download_link(user_data_list, FILE_NAME), unsafe_allow_html=True)
+        user_data_list = load_user_data_without_image(DATA_FILE)
+        st.markdown(get_table_download_link(user_data_list, "user_data.json"), unsafe_allow_html=True)
 
     if st.button('Download Dates Data JSON'):
         dates_data_list = load_user_data_without_image("dates_data.json")  # Adjust this file name as needed
