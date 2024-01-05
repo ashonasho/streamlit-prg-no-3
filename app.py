@@ -5,7 +5,7 @@ import base64
 import openai
 
 # Set up your OpenAI API key
-openai.api_key = "YOUR_OPENAI_API_KEY_HERE"  # Replace with your actual OpenAI API key
+openai.api_key = ""  # Replace with your actual OpenAI API key
 
 # Function to save user data to a JSON file
 def save_user_data(user_data_list, file_name="user_data.json"):
@@ -21,17 +21,17 @@ def get_table_download_link(json_data, file_name="user_data.json"):
     return href
 
 # Function to load user data from a JSON file
-def load_user_data(file_name="user_data.json"):
-    json_file_path = file_name
+
+
+def load_user_data_without_image(file_name="user_data.json"):
     try:
-        with open(json_file_path, "r") as json_file:
+        with open(file_name, "r") as json_file:
             user_data_list = json.load(json_file)
+            for user_data in user_data_list:
+                user_data.pop("image", None)  # Remove image data
     except (FileNotFoundError, json.JSONDecodeError):
         user_data_list = []
     return user_data_list
-
-def load_user_data_without_image():
-    bhjahja
 
     
 # Function to call GPT-3.5 for match-finding prompts
