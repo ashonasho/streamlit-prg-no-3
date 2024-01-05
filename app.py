@@ -45,17 +45,19 @@ def load_user_data_without_image(file_name="user_data.json"):
     
 # Function to call GPT-3.5 for match-finding prompts
 def call_gpt3_match_finding(prompt):
-    openai.api_key = os.environ.get("OPENAI_API_KEY") # Replace with your actual OpenAI API key
-    response = openai.Completion.create(
-        model="gpt-3.5-turbo-instruct",
-        prompt=prompt,
-        max_tokens=100,
-        n=1,
-        stop=None,
-        temperature=0.7
-    )
+    openai.api_key = os.environ.get("OPENAI_API_KEY")  # Ensure your API key is correctly set in your environment variables
 
-    return response.choices[0].text.strip()
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # or use "gpt-3.5-turbo" if it's available
+            prompt=prompt,
+            max_tokens=100,
+            temperature=0.7
+        )
+        return response.choices[0].text.strip()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
 
 def format_user_data_for_prompt(user_data_list):
     # Format the user data list for the prompt
