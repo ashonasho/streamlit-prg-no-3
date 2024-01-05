@@ -47,7 +47,7 @@ def load_user_data_without_image(file_name="user_data.json"):
 def call_gpt3_match_finding(prompt):
     openai.api_key = os.environ.get("OPENAI_API_KEY") # Replace with your actual OpenAI API key
     response = openai.Completion.create(
-        engine="text-davinci-002",
+        model="gpt-3.5-turbo-instruct",
         prompt=prompt,
         max_tokens=100,
         n=1,
