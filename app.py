@@ -4,9 +4,10 @@ import json
 import base64
 import openai
 from openai import OpenAI 
+import os
 
 # Set up your OpenAI API key
-openai.api_key = "YOUR_OPENAI_API_KEY_HERE"  # Replace with your actual OpenAI API key
+
 
 # Function to save user data to a JSON file
 def save_user_data(user_data_list, file_name="user_data.json"):
@@ -44,6 +45,7 @@ def load_user_data_without_image(file_name="user_data.json"):
     
 # Function to call GPT-3.5 for match-finding prompts
 def call_gpt3_match_finding(prompt):
+    openai.api_key = os.environ.get("OPENAI_API_KEY") # Replace with your actual OpenAI API key
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=prompt,
