@@ -44,25 +44,17 @@ def load_user_data_without_image(file_name="user_data.json"):
     return user_data_list
     
 # Function to call GPT-3.5 for match-finding prompts
-def call_gpt3_match_finding(prompt):
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-    if not openai.api_key:
-        print("OpenAI API key is not set in environment variables")
-        return None
+def call_gpt3(prompt):
+    openai.api_key = os.environ['OPENAI_API_KEY']  # Environment variable-l irunthu API key get pannuthu
+    client = OpenAI()  # OpenAI client create pannuthu
 
-    try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=100,
-            temperature=0.7
-        )
-        print("Response from OpenAI:", response)  # Debugging
-        return response.choices[0].text.strip()
-    except Exception as e:
-        print(f"An error occurred during OpenAI API call: {e}")
-        return None
-
+    response = client.completions.create(
+        model="gpt-3.5-turbo-instruct",  # GPT-3.5 model specify pannuthu
+        prompt=prompt,  # User kudutha prompt pass pannuthu
+        max_tokens = 1000  # Maximum number of tokens (words) specify pannuthu
+    )
+   
+    return response.choices[0].text 
 # Ensure this function is correctly called in your main app logic.
 
 
@@ -161,7 +153,7 @@ def main():
         match_pre = f"{match_finding_prompt} Here are the potential matches: {formatted_user_data}"
 
         try:
-            match_result = call_gpt3_match_finding(match_pre)
+            match_result = call_gpt3(match_pre)
             st.success("Date's information submitted successfully!")
 
             matches = process_gpt3_response(match_result)
@@ -202,6 +194,47 @@ def main():
     if st.button('Download Dates Data JSON'):
         dates_data_list = load_user_data_without_image("dates_data.json")
         st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
+
+
+    if 'full_prompt' not in st.session_state:
+        st.session_state.full_prompt=""
+    if 'gpt3_response' not in st.session_state:
+        st.session_state.gpt3_response=""
+
+    if 'user_data.json' not in st.session_state:
+        file_name = "user_data.json"
+        st.session_state.user_data_json = load_user_data_without_image(file_name)
+
+    # Assuming current_user is the last user in user_data
+    # Assuming current_user is the last user in user_data
+    current_user = user_data[-1] if user_data else None
+
+    if current_user:
+        # Construct a more specific prompt
+        # Constructing the user prompt based on high_preference
+        if high_preference == "gender & religion":
+            user_prompt = (f"Find potential matches for a person named {current_user['name']} who is interested in {current_user['interest']}, "
+                        f"belongs to the star sign {current_user['star']}, and works in the field of {current_user['work']}. "
+                        f"Priority is given to matches who are {date_gender} and follow the {date_religion} religion.")
+
+        elif high_preference == "gender & job":
+            user_prompt = (f"Find potential matches for a person named {current_user['name']} who is interested in {current_user['interest']}, "
+                        f"belongs to the star sign {current_user['star']}, and works in the field of {current_user['work']}. "
+                        f"Priority is given to matches who are {date_gender} and work as a {date_job}.")
+
+        elif high_preference == "All":
+            user_prompt = (f"Find potential matches for a person named {current_user['name']} who is interested in {current_user['interest']}, "
+                        f"belongs to the star sign {current_user['star']}, and works in the field of {current_user['work']}. "
+                        f"Priority is given to matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job}.")
+            button = st.button("Send Data to GPT-3.5")
+
+        if button:
+            # Send the refined prompt
+            gpt3_response = call_gpt3(user_prompt)
+            st.write("OpenAI Response:", gpt3_response)
+    else:
+        st.error("No user data available.")
+
 
 if __name__ == "__main__":
     main()
