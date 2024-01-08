@@ -201,13 +201,13 @@ def main():
     if 'gpt3_response' not in st.session_state:
         st.session_state.gpt3_response=""
 
-    if 'user_data.json' not in st.session_state:
-        file_name = "user_data.json"
-        st.session_state.user_data_json = load_user_data_without_image(file_name)
+    if 'user_data_list' not in st.session_state:
+        st.session_state.user_data_list = load_user_data_without_image("user_data.json")
+    user_data_list = st.session_state.user_data_list
 
     # Assuming current_user is the last user in user_data
     # Assuming current_user is the last user in user_data
-    current_user = user_data[-1] if user_data else None
+    current_user = user_data_list[-1] if user_data_list else None
 
     if current_user:
             
