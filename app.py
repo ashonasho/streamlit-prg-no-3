@@ -210,31 +210,28 @@ def main():
     current_user = user_data[-1] if user_data else None
 
     if current_user:
-        # Construct a more specific prompt
-        # Constructing the user prompt based on high_preference
-        if high_preference == "gender & religion":
-            user_prompt = (f"Find potential matches for a person named {current_user['name']} who is interested in {current_user['interest']}, "
-                        f"belongs to the star sign {current_user['star']}, and works in the field of {current_user['work']}. "
-                        f"Priority is given to matches who are {date_gender} and follow the {date_religion} religion.")
+            
+            # Append additional criteria based on high_preference
+            if high_preference == "gender & religion":
+                user_prompt = f"and prioritize matches who are {date_gender} and follow the {date_religion} religion."
 
-        elif high_preference == "gender & job":
-            user_prompt = (f"Find potential matches for a person named {current_user['name']} who is interested in {current_user['interest']}, "
-                        f"belongs to the star sign {current_user['star']}, and works in the field of {current_user['work']}. "
-                        f"Priority is given to matches who are {date_gender} and work as a {date_job}.")
+            elif high_preference == "gender & job":
+                user_prompt =  f"and prioritize matches who are {date_gender} and work as a {date_job}."
 
-        elif high_preference == "All":
-            user_prompt = (f"Find potential matches for a person named {current_user['name']} who is interested in {current_user['interest']}, "
-                        f"belongs to the star sign {current_user['star']}, and works in the field of {current_user['work']}. "
-                        f"Priority is given to matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job}.")
-        
-        button = st.button("Send Data to GPT-3.5")
+            elif high_preference == "All":
+                user_prompt =  f"and prioritize matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job}."
 
-        if button:
+    else:
+            user_prompt = "No current user data available."
+    
+    button = st.button("Send Data to GPT-3.5")
+
+    if button:
             # Send the refined prompt
             gpt3_response = call_gpt3(user_prompt)
             st.write("OpenAI Response:", gpt3_response)
     else:
-        st.error("No user data available.")
+            st.error("No user data available.")
 
 
 if __name__ == "__main__":
