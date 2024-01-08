@@ -165,6 +165,7 @@ def main():
             st.success("Date's information submitted successfully!")
 
             matches = process_gpt3_response(match_result)
+            print(matches)
             display_matches(matches)
 
         except Exception as e:
