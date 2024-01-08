@@ -226,6 +226,7 @@ def main():
             user_prompt = (f"Find potential matches for a person named {current_user['name']} who is interested in {current_user['interest']}, "
                         f"belongs to the star sign {current_user['star']}, and works in the field of {current_user['work']}. "
                         f"Priority is given to matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job}.")
+        
         button = st.button("Send Data to GPT-3.5")
 
         if button:
