@@ -149,7 +149,7 @@ def main():
         submit_date_info = st.form_submit_button("Submit Date's Information", disabled=not all_date_fields_filled)
 
     if submit_date_info:
-        match_finding_prompt = f"Find a match for a person with the following preferences: Gender - {date_gender}, Religion - {date_religion}, Job - {date_job}. The high preference is {high_preference}."
+        match_finding_prompt = f"Find a match for a person with the following preferences: Gender - {date_gender}, Religion - {date_religion}, Job - {date_job}, The high preference is {high_preference}."
 
         user_data_list_without_image = load_user_data_without_image()
         formatted_user_data = format_user_data_for_prompt(user_data_list_without_image)
@@ -167,27 +167,27 @@ def main():
         except Exception as e:
             st.error(f"An error occurred: {e}")
         # Check preferences and find matching profiles
-        matching_profiles = []
-        for user in user_data_list:
-            # You can use the match_result to filter profiles or suggest matches based on GPT-3.5's response
-            # For example, you can use it to filter profiles by interests or other criteria.
-            if high_preference == "gender & religion" and user['gender'] == date_gender and user['religion'] == date_religion:
-                matching_profiles.append(user)
-            elif high_preference == "gender & job" and user['gender'] == date_gender and user['job'] == date_job:
-                matching_profiles.append(user)
-            elif high_preference == "All" and user['gender'] == date_gender and user['religion'] == date_religion and user['job'] == date_job:
-                matching_profiles.append(user)
+        # matching_profiles = []
+        # for user in user_data_list:
+        #     # You can use the match_result to filter profiles or suggest matches based on GPT-3.5's response
+        #     # For example, you can use it to filter profiles by interests or other criteria.
+        #     if high_preference == "gender & religion" and user['gender'] == date_gender and user['religion'] == date_religion:
+        #         matching_profiles.append(user)
+        #     elif high_preference == "gender & job" and user['gender'] == date_gender and user['job'] == date_job:
+        #         matching_profiles.append(user)
+        #     elif high_preference == "All" and user['gender'] == date_gender and user['religion'] == date_religion and user['job'] == date_job:
+        #         matching_profiles.append(user)
 
-        # Display matching profiles
-        if matching_profiles:
-            for profile in matching_profiles:
-                st.subheader(f"{profile['name']} - {profile['job']}")
-                st.write(f"Religion: {profile['religion']}")
-                st.write(f"Interests: {profile['interests']}")
-                if 'image' in profile:
-                    st.image(base64.b64decode(profile['image']), caption=profile['name'], use_column_width=True)
-        else:
-            st.write("No matching profiles found.")
+        # # Display matching profiles
+        # if matching_profiles:
+        #     for profile in matching_profiles:
+        #         st.subheader(f"{profile['name']} - {profile['job']}")
+        #         st.write(f"Religion: {profile['religion']}")
+        #         st.write(f"Interests: {profile['interests']}")
+        #         if 'image' in profile:
+        #             st.image(base64.b64decode(profile['image']), caption=profile['name'], use_column_width=True)
+        # else:
+        #     st.write("No matching profiles found.")
 
     # Download button for user JSON data
     if st.button('Download User Data JSON'):
