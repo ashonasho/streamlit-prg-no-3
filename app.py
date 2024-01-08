@@ -45,13 +45,14 @@ def load_user_data_without_image(file_name="user_data.json"):
     
 # Function to call GPT-3.5 for match-finding prompts
 def call_gpt3_match_finding(prompt):
-    openai.api_key = os.getenv("")
+    openai.api_key = os.getenv["OPENAI_API_KEY"]
+    client = openAI()
     if not openai.api_key:
         print("OpenAI API key is not set in environment variables")
         return None
 
     try:
-        response = openai.Completion.create(
+        response = client.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
             max_tokens=100,
