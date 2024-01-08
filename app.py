@@ -148,24 +148,24 @@ def main():
         # Submit button for the date's form, enabled only when all fields are filled
         submit_date_info = st.form_submit_button("Submit Date's Information", disabled=not all_date_fields_filled)
 
-    if submit_date_info:
-        match_finding_prompt = f"Find a match for a person with the following preferences: Gender - {date_gender}, Religion - {date_religion}, Job - {date_job}, The high preference is {high_preference}."
+    # if submit_date_info:
+    #     match_finding_prompt = f"Find a match for a person with the following preferences: Gender - {date_gender}, Religion - {date_religion}, Job - {date_job}, The high preference is {high_preference}."
 
-        user_data_list_without_image = load_user_data_without_image()
-        formatted_user_data = format_user_data_for_prompt(user_data_list_without_image)
+    #     user_data_list_without_image = load_user_data_without_image()
+    #     formatted_user_data = format_user_data_for_prompt(user_data_list_without_image)
 
-        match_pre = f"{match_finding_prompt} Here are the potential matches: {formatted_user_data}"
+    #     match_pre = f"{match_finding_prompt} Here are the potential matches: {formatted_user_data}"
 
-        try:
-            match_result = call_gpt3(match_pre)
-            st.success("Date's information submitted successfully!")
+    #     try:
+    #         match_result = call_gpt3(match_pre)
+    #         st.success("Date's information submitted successfully!")
 
-            matches = process_gpt3_response(match_result)
-            print(matches)
-            display_matches(matches)
+    #         matches = process_gpt3_response(match_result)
+    #         print(matches)
+    #         display_matches(matches)
 
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
+    #     except Exception as e:
+    #         st.error(f"An error occurred: {e}")
         # Check preferences and find matching profiles
         # matching_profiles = []
         # for user in user_data_list:
