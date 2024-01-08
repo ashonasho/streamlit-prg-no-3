@@ -12,8 +12,12 @@ import os
 # Function to save user data to a JSON file
 def save_user_data(user_data_list, file_name="user_data.json"):
     json_file_path = file_name
-    with open(json_file_path, "w") as json_file:
-        json.dump(user_data_list, json_file, indent=4)
+    try:
+        with open(json_file_path, "w") as json_file:
+            json.dump(user_data_list, json_file, indent=4)
+        print(f"Data saved to {json_file_path}")  # Debug message
+    except Exception as e:
+        print(f"Error saving data: {e}")
 
 # Function to generate a download link for the JSON data
 def get_table_download_link(json_data, file_name="user_data.json"):
