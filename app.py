@@ -130,11 +130,14 @@ def main():
         # Check if all required fields and image are filled
         all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
 
-        # Submit button for user data
-        if all_fields_filled and st.button("Submit User Data"):
+        # Submit button for user date
+        buttonsub=st.button("Submit User Data")
+        if all_fields_filled and buttonsub:
             user_data_list.append(user_data)
             save_user_data(user_data_list)
             st.success("User data submitted successfully!")
+        else:
+            ("fill all the blanks and submit again")
 
     # Date's information form
     with st.form("date_info_form"):
@@ -192,14 +195,14 @@ def main():
         #     st.write("No matching profiles found.")
 
     # Download button for user JSON data
-    if st.button('Download User Data JSON'):
-        user_data_list = load_user_data_without_image()
-        st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
+    # if st.button('Download User Data JSON'):
+    #     user_data_list = load_user_data_without_image()
+    #     st.markdown(get_table_download_link(user_data_list), unsafe_allow_html=True)
 
-    # Download button for dates JSON data
-    if st.button('Download Dates Data JSON'):
-        dates_data_list = load_user_data_without_image("dates_data.json")
-        st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
+    # # Download button for dates JSON data
+    # if st.button('Download Dates Data JSON'):
+    #     dates_data_list = load_user_data_without_image("dates_data.json")
+    #     st.markdown(get_table_download_link(dates_data_list, "dates_data.json"), unsafe_allow_html=True)
 
 
     if 'full_prompt' not in st.session_state:
@@ -236,7 +239,6 @@ def main():
     if button:
             # Send the refined prompt
             gpt3_response = call_gpt3(user_prompt)
-            st.write(user_prompt)
             st.write("OpenAI Response:", gpt3_response)
     else:
             st.error("No user data available.")
