@@ -220,7 +220,7 @@ def main():
             
             # Append additional criteria based on high_preference
             if high_preference == "gender & religion":
-                user_prompt = f"here is my datas {details}.and prioritize matches who are {date_gender}. and FOLLOW {date_religion}.give in ordered list view and the suitable datas for my these conditions and dont give me the sample datas"
+                user_prompt = f"here is my datas {details}.and prioritize matches who are {date_gender}. and FOLLOW {date_religion}.give in ordered list view and the suitable datas for my these conditions. dont give me the sample datas"
 
             elif high_preference == "gender & job":
                 user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and has job as the {date_job}.give in ordered list view dont give me the sample datas"
