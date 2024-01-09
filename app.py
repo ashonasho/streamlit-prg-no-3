@@ -130,7 +130,7 @@ def main():
         # Check if all required fields and image are filled
         all_fields_filled = all(value is not None and (isinstance(value, str) and value.strip() or True) for value in user_data.values())
 
-        # Submit button for user date
+        # Submit button for user data
         if all_fields_filled and st.button("Submit User Data"):
             user_data_list.append(user_data)
             save_user_data(user_data_list)
@@ -226,7 +226,7 @@ def main():
                 user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and has job as the {date_job}.give in ordered list view dont give me the sample datas"
 
             elif high_preference == "All":
-                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.and has job as the {date_job} give in ordered list view anddont dont give me the sample datas"
+                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.and has job as the {date_job} give in ordered list view anddont give me the sample datas"
 
     else:
             user_prompt = "No current user data available."
@@ -236,6 +236,7 @@ def main():
     if button:
             # Send the refined prompt
             gpt3_response = call_gpt3(user_prompt)
+
             st.write("OpenAI Response:", gpt3_response)
     else:
             st.error("No user data available.")
