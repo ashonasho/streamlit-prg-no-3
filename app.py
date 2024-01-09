@@ -217,19 +217,13 @@ def main():
     details=format_user_data_for_prompt(user_data_list)
 
     if current_user:
+            match_criteria = f"Gender: {date_gender}, Religion: {date_religion}, Job: {date_job}. High Preference: {high_preference}"
+            user_prompt = f"Based on the following profiles, suggest matches that meet these criteria: {match_criteria}\n\n{formatted_user_data}"
             
-            # Append additional criteria based on high_preference
-            if high_preference == "gender & religion":
-                    user_prompt = "and prioritize matches who are {date_gender} and follow the {date_religion} religion."
+           
+            formatted_user_data = format_user_data_for_prompt(user_data_list)
 
-            elif high_preference == "gender & job":
-                    user_prompt = "and prioritize matches who are {date_gender} and work as a {date_job}."
 
-            elif high_preference == "All":
-                    user_prompt = "and prioritize matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job}."
-
-            else:
-                    user_prompt = "No current user data available."
     
     button = st.button("Send Data to GPT-3.5")
 
