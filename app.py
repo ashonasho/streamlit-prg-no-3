@@ -236,6 +236,7 @@ def main():
     if button:
             # Send the refined prompt
             gpt3_response = call_gpt3(user_prompt)
+            st.write(user_prompt)
             st.write("OpenAI Response:", gpt3_response)
     else:
             st.error("No user data available.")
