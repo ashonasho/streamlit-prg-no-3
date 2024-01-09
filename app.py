@@ -69,6 +69,7 @@ def format_user_data_for_prompt(user_data_list):
     for user in user_data_list:
         formatted_data += f"Name: {user['name']}, Gender: {user['gender']}, Religion: {user['religion']}, Job: {user['job']}\n"
     return formatted_data
+
 def process_gpt3_response(response_text):
     # Process the response to extract match information
     # Implement your logic here based on the response structure
@@ -213,18 +214,19 @@ def main():
     # Assuming current_user is the last user in user_data
     # Assuming current_user is the last user in user_data
     current_user = user_data_list[-1] if user_data_list else None
+    details=format_user_data_for_prompt(user_data_list)
 
     if current_user:
             
             # Append additional criteria based on high_preference
             if high_preference == "gender & religion":
-                user_prompt = f"and prioritize matches who are {date_gender} and follow the {date_religion} religion."
+                user_prompt = f"and prioritize matches who are {date_gender} and follow the {date_religion} religion from the {details}."
 
             elif high_preference == "gender & job":
-                user_prompt =  f"and prioritize matches who are {date_gender} and work as a {date_job}."
+                user_prompt =  f"and prioritize matches who are {date_gender} and work as a {date_job} from the {details}"
 
             elif high_preference == "All":
-                user_prompt =  f"and prioritize matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job}."
+                user_prompt =  f"and prioritize matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job} from the {details}"
 
     else:
             user_prompt = "No current user data available."
