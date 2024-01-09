@@ -220,13 +220,13 @@ def main():
             
             # Append additional criteria based on high_preference
             if high_preference == "gender & religion":
-                user_prompt = f"here is my datas {details}.and prioritize matches who are {date_gender}. and FOLLOW {date_religion}.give highly recomended data form my json file. dont give me any sample datas"
+                user_prompt = f"here is my datas {details}.and prioritize matches who are {date_gender}. and FOLLOW {date_religion}.give data form my json file. don't give me any sample data"
 
             elif high_preference == "gender & job":
-                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and has job as the {date_job}.give the most suitable profiles. dont give me the sample datas"
+                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and has job as the {date_job}.give the most suitable profiles. don't give me the sample datas"
 
             elif high_preference == "All":
-                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.and has job as the {date_job} give in ordered list, full data view and dont give me the sample datas"
+                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.and has job as the {date_job} give in ordered list, full data view and don't give me the sample datas"
 
     else:
             user_prompt = "No current user data available."
