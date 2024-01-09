@@ -220,13 +220,13 @@ def main():
             
             # Append additional criteria based on high_preference
             if high_preference == "gender & religion":
-                user_prompt = f"and prioritize matches who are {date_gender},same date gender and follow the {date_religion},religion ==only from the {details}."
+                user_prompt = f"and prioritize matches who are {date_gender},==same date gender and follow the {date_religion},==religion ==only from the {details}."
 
             elif high_preference == "gender & job":
-                user_prompt =  f"and prioritize matches who are {date_gender},same date gender and work as a {date_job} ==only from the {details}"
+                user_prompt =  f"and prioritize matches who are {date_gender},==same date gender and work as a {date_job} ==only from the {details}"
 
             elif high_preference == "All":
-                user_prompt =  f"and prioritize matches who are {date_gender}same date gender follow the {date_religion} religion, and work as a {date_job} ==only from the {details}"
+                user_prompt =  f"and prioritize matches who are {date_gender}==same date gender follow the {date_religion}== religion,== and work as a {date_job} ==only from the {details}"
 
     else:
             user_prompt = "No current user data available."
