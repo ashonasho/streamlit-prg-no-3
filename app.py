@@ -88,8 +88,6 @@ def display_matches(matches):
     #     st.write("No matching profiles found.")
 
 def main():
-    button=None
-    check = 0
     st.title("Let's Date")
     st.header("In the world of our Dating App, possibilities are endless. Discover the chemistry, embrace the excitement, and let your perfect date unfold in style.")
 
@@ -138,7 +136,6 @@ def main():
             user_data_list.append(user_data)
             save_user_data(user_data_list)
             st.success("User data submitted successfully!")
-            check=1
         else:
             ("fill all the blanks and submit again")
 
@@ -236,10 +233,8 @@ def main():
 
     else:
             user_prompt = "No current user data available."
-    if (check==1):
-        button = st.button("Send Data to GPT-3.5")
-    else:
-        st.write("Please submit your datas")
+    
+    button = st.button("Send Data to GPT-3.5")
 
     if button:
             # Send the refined prompt
