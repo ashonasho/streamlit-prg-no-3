@@ -66,8 +66,11 @@ def format_user_data_for_prompt(user_data_list):
     # Format the user data list for the prompt
     formatted_data = ""
     for user in user_data_list:
-        formatted_data += f"Name: {user['name']}, Gender: {user['gender']}, Religion: {user['religion']}, Job: {user['job']}\n"
+        user_info = f"Name: {user['name']}, Gender: {user['gender']}, Religion: {user['religion']}, Job: {user['job']}"
+        formatted_data += user_info + "\n"
     return formatted_data
+
+
 def process_gpt3_response(response_text):
     # Process the response to extract match information
     # Implement your logic here based on the response structure
@@ -208,27 +211,35 @@ def main():
     if 'user_data_list' not in st.session_state:
         st.session_state.user_data_list = load_user_data_without_image("user_data.json")
     user_data_list = st.session_state.user_data_list
+    formatted_user_data = format_user_data_for_prompt(user_data_list)
 
     # Assuming current_user is the last user in user_data
     # Assuming current_user is the last user in user_data
     current_user = user_data_list[-1] if user_data_list else None
 
     if current_user:
-        # Date preferences input fields
-        date_gender = st.radio("Date's Gender", ["Male", "Female", "Other"])
-        date_religion = st.selectbox("Date's Religion", ["Hindu", "Christian", "Muslim", "Buddhist", "Other"])
-        date_job = st.text_input("Date's Job")
-        high_preference = st.selectbox("High Preference", ["gender & religion", "gender & job", "All"])
+            
+            # Append additional criteria based on high_preference
+            if high_preference == "gender & religion":
+                user_prompt = f"and prioritize matches who are {date_gender} and follow the {date_religion} religion."
 
-        # Button to send data to GPT-3.5
-        if st.button("Send Data to GPT-3.5"):
-            formatted_user_data = format_user_data_for_prompt(user_data_list)
-            user_prompt = f"Find a match for a person named {current_user['name']} who prefers {high_preference}. Here are the potential matches: {formatted_user_data}"
+            elif high_preference == "gender & job":
+                user_prompt =  f"and prioritize matches who are {date_gender} and work as a {date_job}."
+
+            elif high_preference == "All":
+                user_prompt =  f"and prioritize matches who are {date_gender}, follow the {date_religion} religion, and work as a {date_job}."
+
+    else:
+            user_prompt = "No current user data available."
+    
+    button = st.button("Send Data to GPT-3.5")
+
+    if button:
+            # Send the refined prompt
             gpt3_response = call_gpt3(user_prompt)
             st.write("OpenAI Response:", gpt3_response)
     else:
-        st.error("No user data available.")
-
+            st.error("No user data available.")
 
 
 if __name__ == "__main__":
