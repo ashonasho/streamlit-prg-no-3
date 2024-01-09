@@ -226,7 +226,7 @@ def main():
                 user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and has job as the {date_job}.give the most suitable profiles. dont give me the sample datas"
 
             elif high_preference == "All":
-                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.and has job as the {date_job} give in ordered list view anddont give me the sample datas"
+                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.and has job as the {date_job} give in ordered list, full data view and dont give me the sample datas"
 
     else:
             user_prompt = "No current user data available."
