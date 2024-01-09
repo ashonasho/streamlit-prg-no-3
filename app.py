@@ -213,21 +213,31 @@ def main():
 
     # Assuming current_user is the last user in user_data
     # Assuming current_user is the last user in user_data
-    if submit_date_info:
-        # Assuming current_user is the last user in user_data
-        current_user = user_data_list[-1] if user_data_list else None
-        details = format_user_data_for_prompt(user_data_list)
+    current_user = user_data_list[-1] if user_data_list else None
+    details=format_user_data_for_prompt(user_data_list)
 
-        match_criteria = f"Gender: {date_gender}, Religion: {date_religion}, Job: {date_job}. High Preference: {high_preference}"
-        user_prompt = f"Based on the following profiles, suggest matches that meet these criteria: {match_criteria}\n\n{details}"
+    if current_user:
+            
+            # Append additional criteria based on high_preference
+            if high_preference == "gender & religion":
+                user_prompt = f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}. dont give me the sample datas"
 
-        formatted_user_data = format_user_data_for_prompt(user_data_list)
+            elif high_preference == "gender & job":
+                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and work as {date_job}. dont give me the sample datas"
 
-        if current_user:
+            elif high_preference == "All":
+                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.works as the {date_job} dont give me the sample datas"
+
+    else:
+            user_prompt = "No current user data available."
+    
+    button = st.button("Send Data to GPT-3.5")
+
+    if button:
             # Send the refined prompt
             gpt3_response = call_gpt3(user_prompt)
             st.write("OpenAI Response:", gpt3_response)
-        else:
+    else:
             st.error("No user data available.")
 
 
