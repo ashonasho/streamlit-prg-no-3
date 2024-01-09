@@ -224,7 +224,7 @@ def main():
 
 
             elif high_preference == "gender & job":
-                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and has job as the {date_job}.give the most suitable profiles and don't give me the sample data"
+                user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender}. and has job as the {date_job} give in ordered list, full data view and don't give me the sample datas"
 
             elif high_preference == "All":
                 user_prompt =  f"here is my datas {details}.and prioritize matches who are {date_gender} and FOLLOW {date_religion}.and has job as the {date_job} give in ordered list, full data view and don't give me the sample datas"
